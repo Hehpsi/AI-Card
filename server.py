@@ -1,12 +1,14 @@
-from flask import Flask, render_template, request
-from wtforms import Form, StringField, validators, SelectMultipleField, widgets
-from wtforms.widgets import TextArea
+from flask import Flask, render_template, request, redirect, url_for
+from wtforms import StringField, SelectMultipleField, TextAreaField, FieldList, FormField, SubmitField
+from wtforms.validators import InputRequired, Length, DataRequired
+from flask_wtf import FlaskForm
 
 app = Flask(__name__)
+app.config['SECRET_KEY'] = 'your_secret_key'
 
-class AICardsForm(Form):
-    name = StringField("Name", validators=[validators.InputRequired(), validators.Length(min=2, max=150)])
-    version = StringField("Version", validators=[validators.InputRequired(), validators.Length(min=4, max=5)])
+class AICardsForm(FlaskForm):
+    name = StringField("Name", validators=[InputRequired(), Length(min=2, max=150)])
+    version = StringField("Version", validators=[InputRequired(), Length(min=4, max=5)])
     aiTechniques = SelectMultipleField(
         "AI Techniques", validators=[validators.InputRequired(),], 
         choices=[
@@ -30,10 +32,9 @@ class AICardsForm(Form):
             ('optimisation_method', 'Optimisation Method'),
             ('search_method', 'Search Method')
         ],
-       
     )
-    providers = StringField("Provider(s)", validators=[validators.InputRequired(), validators.Length(min=4, max=150)])
-    developers = StringField("Developer(s)", validators=[validators.InputRequired(), validators.Length(min=4, max=150)])
+    providers = StringField("Provider(s)", validators=[InputRequired(), Length(min=4, max=150)])
+    developers = StringField("Developer(s)", validators=[InputRequired(), Length(min=4, max=150)])
     purpose = SelectMultipleField(
         "Purpose", validators=[validators.InputRequired(),], 
         choices = [
@@ -152,7 +153,6 @@ class AICardsForm(Form):
             ('border_control_security_check', 'Border Control Security Check'),
             ('job_profile_matching', 'Job Profile Matching'),
         ],
-
     )
     domain = SelectMultipleField(
         "AI Techniques", validators=[validators.InputRequired(),], 
@@ -170,8 +170,8 @@ class AICardsForm(Form):
             ('administration_of_democratic_processes', 'Administration Of Democratic Processes')
         ],
     )
-    capability = StringField("Capability", validators=[validators.InputRequired()], widget=TextArea())
-    deployers = StringField("Depolyer", validators=[validators.InputRequired()], widget=TextArea())
+    capability = TextAreaField("Capability", validators=[InputRequired()])
+    deployers = TextAreaField("Deployers", validators=[InputRequired()])
     aisubjects = SelectMultipleField(
         "AI Subjects", validators=[validators.InputRequired(),], 
         choices = [
@@ -193,17 +193,32 @@ class AICardsForm(Form):
             ('visa_applicant', 'Visa Applicant'),
             ('passenger', 'Passenger')
         ],
-
-       
     )
+
+class TextBoxForm(FlaskForm):
+    name = StringField('Name', validators=[DataRequired()], render_kw={"class": "form-control"})
+    description = TextAreaField('Description', validators=[DataRequired()], render_kw={"class": "form-control"})
+
+class DynamicForm(FlaskForm):
+    components = FieldList(FormField(TextBoxForm), min_entries=1)
+    add_button = SubmitField('Add')
+    remove_button = SubmitField('Remove')
 
 @app.route("/", methods=["GET", "POST"])
 def index():
-    form = AICardsForm(request.form)
-    if request.method == "POST" and form.validate():
-        # Convert the form data to a dictionary
-        result = {key: request.form.getlist(key) for key in request.form.keys()}
-        return render_template("results.html.j2", result=result)
-    return render_template("home.html.j2", form=form)
+    form = AICardsForm()
+    dynamic_form = DynamicForm()
 
-app.run(host="0.0.0.0", port=5001, debug=True)
+    if request.method == "POST":
+        if 'add-button' in request.form:
+            dynamic_form.components.append_entry()
+        elif 'remove-button' in request.form and len(dynamic_form.components) > 0:
+            dynamic_form.components.pop_entry()
+        elif form.validate_on_submit() and dynamic_form.validate_on_submit():
+            result = {key: request.form.getlist(key) for key in request.form.keys()}
+            return render_template("results.html.j2", result=result)
+
+    return render_template("home.html.j2", form=form, dynamic_form=dynamic_form)
+
+if __name__ == '__main__':
+    app.run(host="0.0.0.0", port=5001, debug=True)

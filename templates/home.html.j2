@@ -55,17 +55,24 @@
         .hidden {
             display: none;
         }
+        .form-group {
+            margin-bottom: 15px;
+        }
     </style>
     <script>
         function showIntendedUse() {
             document.getElementById('general-info').classList.add('hidden');
             document.getElementById('intended-use').classList.remove('hidden');
         }
+        function showKeyComponents() {
+            document.getElementById('intended-use').classList.add('hidden');
+            document.getElementById('key-components').classList.remove('hidden');
+        }
     </script>
 </head>
 <body>
     <div class="container">
-        <form method="post">
+        <form method="post" action="{{ url_for('index') }}">
             <div id="general-info" class="section">
                 <h2>General Information</h2>
                 <table>
@@ -118,11 +125,64 @@
                         <td>{{ form.aisubjects }}</td>
                     </tr>
                 </table>
-                <div class="submit-btn">
-                    <button type="submit">Submit</button>
+                <div class="next-btn">
+                    <button type="button" onclick="showKeyComponents()">Next</button>
                 </div>
+            </div>
+            <div id="key-components" class="section hidden">
+                <h2>Key Components</h2>
+                {{ dynamic_form.hidden_tag() }}
+                <div id="text-boxes">
+                    {% for text_box in dynamic_form.components %}
+                        <div class="form-row align-items-center">
+                            <div class="form-group col-md-1">
+                                <label>Components</label>
+                            </div>
+                            <div class="form-group col-md-5">
+                                {{ text_box.name.label }}
+                                {{ text_box.name }}
+                            </div>
+                            <div class="form-group col-md-6">
+                                {{ text_box.description.label }}
+                                {{ text_box.description }}
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>                
+                <button type="button" id="add-button" class="btn btn-primary">Add</button>
+                <button type="button" id="remove-button" class="btn btn-danger">Remove</button>
+                <button type="submit" class="btn btn-success">Submit</button>
             </div>
         </form>
     </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $("#add-button").click(function() {
+                var index = $("#text-boxes .form-row").length;
+                var newTextBox = `
+                    <div class="form-row align-items-center">
+                        <div class="form-group col-md-1">
+                            <label>Components</label>
+                        </div>
+                        <div class="form-group col-md-5">
+                            <label for="components-${index}-name">Name</label>
+                            <input type="text" class="form-control" name="components-${index}-name" id="components-${index}-name">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="components-${index}-description">Description</label>
+                            <textarea class="form-control" name="components-${index}-description" id="components-${index}-description"></textarea>
+                        </div>
+                    </div>
+                `;
+                $("#text-boxes").append(newTextBox);
+            });
+
+            $("#remove-button").click(function() {
+                $("#text-boxes .form-row:last").remove();
+            });
+        });
+    </script>
 </body>
 </html>
+
