@@ -3,14 +3,16 @@ from wtforms import StringField, SelectMultipleField, TextAreaField, FieldList, 
 from wtforms.validators import InputRequired, Length, DataRequired
 from flask_wtf import FlaskForm
 
+# Create Flask app
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'your_secret_key'
 
+# Define the main form for AI Cards
 class AICardsForm(FlaskForm):
     name = StringField("Name", validators=[InputRequired(), Length(min=2, max=150)])
     version = StringField("Version", validators=[InputRequired(), Length(min=4, max=5)])
     aiTechniques = SelectMultipleField(
-        "AI Techniques", validators=[validators.InputRequired(),], 
+        "AI Techniques", validators=[InputRequired(),], 
         choices=[
             ('reasoning_technique', 'Reasoning Technique'),
             ('learning_technique', 'Learning Technique'),
@@ -36,7 +38,7 @@ class AICardsForm(FlaskForm):
     providers = StringField("Provider(s)", validators=[InputRequired(), Length(min=4, max=150)])
     developers = StringField("Developer(s)", validators=[InputRequired(), Length(min=4, max=150)])
     purpose = SelectMultipleField(
-        "Purpose", validators=[validators.InputRequired(),], 
+        "Purpose", validators=[InputRequired(),], 
         choices = [
             ('remote_identification_of_people', 'Remote Identification Of People'),
             ('content_generation', 'Content Generation'),
@@ -155,7 +157,7 @@ class AICardsForm(FlaskForm):
         ],
     )
     domain = SelectMultipleField(
-        "AI Techniques", validators=[validators.InputRequired(),], 
+        "AI Techniques", validators=[InputRequired(),], 
         choices = [
             ('critical_infrastructure', 'Critical Infrastructure'),
             ('education', 'Education'),
@@ -173,7 +175,7 @@ class AICardsForm(FlaskForm):
     capability = TextAreaField("Capability", validators=[InputRequired()])
     deployers = TextAreaField("Deployers", validators=[InputRequired()])
     aisubjects = SelectMultipleField(
-        "AI Subjects", validators=[validators.InputRequired(),], 
+        "AI Subjects", validators=[InputRequired(),], 
         choices = [
             ('natural_person', 'Natural Person'),
             ('group', 'Group'),
@@ -194,16 +196,43 @@ class AICardsForm(FlaskForm):
             ('passenger', 'Passenger')
         ],
     )
+    input_data = TextAreaField("Input Data", validators=[InputRequired()])
+    human_involvement = SelectMultipleField(
+        "Human Involvement", validators=[InputRequired()],
+        choices=[
+            ('human_involved', 'Human Involved'),
+            ('human_involvement_for_control', 'Human Involvement For Control'),
+            ('human_involvement_for_oversight', 'Human Involvement For Oversight'),
+            ('human_involvement_for_verification', 'Human Involvement For Verification'),
+            ('human_not_involved', 'Human Not Involved')
+        ]
+    )
+    level_of_automation = SelectMultipleField(
+        "Level of Automation", validators=[InputRequired()],
+        choices=[
+            ('assistive_automation', 'Assistive Automation'),
+            ('autonomous', 'Autonomous'),
+            ('conditional_automation', 'Conditional Automation'),
+            ('full_automation', 'Full Automation'),
+            ('high_automation', 'High Automation'),
+            ('not_automated', 'Not Automated'),
+            ('partial_automation', 'Partial Automation')
+        ]
+    )
+
+
 
 class TextBoxForm(FlaskForm):
     name = StringField('Name', validators=[DataRequired()], render_kw={"class": "form-control"})
     description = TextAreaField('Description', validators=[DataRequired()], render_kw={"class": "form-control"})
 
+# Define a dynamic form with a list of text box forms
 class DynamicForm(FlaskForm):
     components = FieldList(FormField(TextBoxForm), min_entries=1)
     add_button = SubmitField('Add')
     remove_button = SubmitField('Remove')
 
+# Route for the index page
 @app.route("/", methods=["GET", "POST"])
 def index():
     form = AICardsForm()
@@ -220,5 +249,6 @@ def index():
 
     return render_template("home.html.j2", form=form, dynamic_form=dynamic_form)
 
+# Run the Flask app
 if __name__ == '__main__':
     app.run(host="0.0.0.0", port=5001, debug=True)
