@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for
-from wtforms import StringField, SelectMultipleField, TextAreaField, FieldList, FormField, SubmitField
+from wtforms import StringField, SelectMultipleField, SelectField, TextAreaField, FieldList, FormField, SubmitField, BooleanField, RadioField
 from wtforms.validators import InputRequired, Length, DataRequired
 from flask_wtf import FlaskForm
 
@@ -196,8 +196,7 @@ class AICardsForm(FlaskForm):
             ('passenger', 'Passenger')
         ],
     )
-    input_data = TextAreaField("Input Data", validators=[InputRequired()])
-    human_involvement = SelectMultipleField(
+    human_involvement = SelectField(
         "Human Involvement", validators=[InputRequired()],
         choices=[
             ('human_involved', 'Human Involved'),
@@ -207,7 +206,7 @@ class AICardsForm(FlaskForm):
             ('human_not_involved', 'Human Not Involved')
         ]
     )
-    level_of_automation = SelectMultipleField(
+    level_of_automation = SelectField(
         "Level of Automation", validators=[InputRequired()],
         choices=[
             ('assistive_automation', 'Assistive Automation'),
@@ -219,24 +218,55 @@ class AICardsForm(FlaskForm):
             ('partial_automation', 'Partial Automation')
         ]
     )
+    isOrganisational = BooleanField('Organisational', default=False)
+    isTechnical = BooleanField('Technical', default=False)
+    isMonitoring = BooleanField('Monitoring', default=False)
+    isSecurity = BooleanField('Security', default=False)
+    isTransparency = BooleanField('Transparency', default=False)
+    isLogging = BooleanField('Logging', default=False)
+    quality = SelectField(
+        "Rate Quality", validators=[InputRequired()],
+        choices=[
+            ('1_', '1'),
+            ('2_', '2'),
+            ('3_', '3'),
+            ('4_', '4'),
+            ('5_', '5')
+        ]
+    )
 
 
 
 class TextBoxForm(FlaskForm):
-    name = StringField('Name', validators=[DataRequired()], render_kw={"class": "form-control"})
-    description = TextAreaField('Description', validators=[DataRequired()], render_kw={"class": "form-control"})
+    name = StringField('Name', validators=[InputRequired()], render_kw={"class": "form-control"})
+    description = TextAreaField('Description', validators=[InputRequired()], render_kw={"class": "form-control"})
+
+class DataBoxForm(FlaskForm):
+    title = StringField('Name', validators=[InputRequired()], render_kw={"class": "form-control"})
+    isPersonalData = BooleanField('Personal Data', default=False)
+    category = StringField('Category', validators=[InputRequired()], render_kw={"class": "form-control"})
+    isnonPersonalData = BooleanField('Non-Personal Data', default=False)
+    isAnonymisedData = BooleanField('Anonymised Data', default=False)
+    isLisencedData = BooleanField('Lisenced Data', default=False)
 
 # Define a dynamic form with a list of text box forms
 class DynamicForm(FlaskForm):
     components = FieldList(FormField(TextBoxForm), min_entries=1)
     add_button = SubmitField('Add')
     remove_button = SubmitField('Remove')
+    
+class DataDynamicForm(FlaskForm):
+    data = FieldList(FormField(DataBoxForm), min_entries=1)
+    add_button = SubmitField('Add')
+    remove_button = SubmitField('Remove')
+    
 
 # Route for the index page
 @app.route("/", methods=["GET", "POST"])
 def index():
     form = AICardsForm()
     dynamic_form = DynamicForm()
+    data_dynamic_form = DataDynamicForm()
 
     if request.method == "POST":
         if 'add-button' in request.form:
@@ -247,7 +277,7 @@ def index():
             result = {key: request.form.getlist(key) for key in request.form.keys()}
             return render_template("results.html.j2", result=result)
 
-    return render_template("home.html.j2", form=form, dynamic_form=dynamic_form)
+    return render_template("home.html.j2", form=form, dynamic_form=dynamic_form, data_dynamic_form=data_dynamic_form)
 
 # Run the Flask app
 if __name__ == '__main__':

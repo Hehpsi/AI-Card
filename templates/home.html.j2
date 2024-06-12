@@ -81,6 +81,14 @@
             document.getElementById('data-processing').classList.add('hidden');
             document.getElementById('human-involvement').classList.remove('hidden');
         }
+        function showRiskProfile() {
+            document.getElementById('human-involvement').classList.add('hidden');
+            document.getElementById('risk-profile').classList.remove('hidden');
+        }
+        function showQuality() {
+            document.getElementById('risk-profile').classList.add('hidden');
+            document.getElementById('quality').classList.remove('hidden');
+        }
         function backToGeneralInfo() {
             document.getElementById('intended-use').classList.add('hidden');
             document.getElementById('general-info').classList.remove('hidden');
@@ -96,6 +104,14 @@
         function backToDataProcessing() {
             document.getElementById('human-involvement').classList.add('hidden');
             document.getElementById('data-processing').classList.remove('hidden');
+        }
+        function backToHumanInvolvement() {
+            document.getElementById('risk-profile').classList.add('hidden');
+            document.getElementById('human-involvement').classList.remove('hidden');
+        }
+        function backToRiskProfile() {
+            document.getElementById('quality').classList.add('hidden');
+            document.getElementById('risk-profile').classList.remove('hidden');
         }
     </script>
 </head>
@@ -191,13 +207,37 @@
             </div>
             <div id="data-processing" class="section hidden">
                 <h2>Data Processing</h2>
-                <table>
-                    <!-- Data Processing fields -->
-                    <tr>
-                        <td>{{ form.input_data.label }}</td>
-                        <td>{{ form.input_data }}</td>
-                    </tr>
-                </table>
+                <!-- Dynamic form fields for data processing -->
+                <div id="data-boxes">
+                    {% for data_box in data_dynamic_form.data %}
+                        <div class="form-row align-items-center">
+                            <table>
+                                <div class="form-group col-md-2">
+                                    {{ data_box.title.label }} {{ data_box.title }}
+                                </div>
+                                <div class="form-group col-md-2">
+                                    {{ data_box.isPersonalData.label }} {{ data_box.isPersonalData }}
+                                </div>
+                                <div class="form-group col-md-2">
+                                    {{ data_box.category.label }} {{ data_box.category }}
+                                </div>
+                                <div class="form-group col-md-2">
+                                    {{ data_box.isnonPersonalData.label }} {{ data_box.isnonPersonalData }}
+                                </div>
+                                <div class="form-group col-md-2">
+                                    {{ data_box.isAnonymisedData.label }} {{ data_box.isAnonymisedData }}
+                                </div>
+                                <div class="form-group col-md-2">
+                                    {{ data_box.isLisencedData.label }} {{ data_box.isLisencedData }}
+                                </div>
+                            </table>
+                        </div>
+                    {% endfor %}
+                </div>
+                <div class="btn-group">
+                    <button id="add-data-button" type="button">Add</button>
+                    <button id="remove-data-button" type="button">Remove</button>
+                </div>
                 <div class="btn-group">
                     <button type="button" class="back-btn" onclick="backToKeyComponents()">Back</button>
                     <button type="button" onclick="showHumanInvolvement()">Next</button>
@@ -218,6 +258,55 @@
                 </table>
                 <div class="btn-group">
                     <button type="button" class="back-btn" onclick="backToDataProcessing()">Back</button>
+                    <button type="button" onclick="showRiskProfile()">Next</button>
+                </div>
+            </div>
+            <div id="risk-profile" class="section hidden">
+                <h2>Risk Profile</h2>
+                <table>
+                    <!-- Risk Profile fields -->
+                    <tr>
+                        <td>{{ form.isOrganisational.label }}</td>
+                        <td>{{ form.isOrganisational }}</td>
+                    </tr>
+                    <tr>
+                        <td>{{ form.isTechnical.label }}</td>
+                        <td>{{ form.isTechnical }}</td>
+                    </tr>
+                    <tr>
+                        <td>{{ form.isMonitoring.label }}</td>
+                        <td>{{ form.isMonitoring }}</td>
+                    </tr>
+                    <tr>
+                        <td>{{ form.isSecurity.label }}</td>
+                        <td>{{ form.isSecurity }}</td>
+                    </tr>
+                    <tr>
+                        <td>{{ form.isTransparency.label }}</td>
+                        <td>{{ form.isTransparency }}</td>
+                    </tr>
+                    <tr>
+                        <td>{{ form.isLogging.label }}</td>
+                        <td>{{ form.isLogging }}</td>
+                    </tr>
+                </table>
+                <div class="btn-group">
+                    <button type="button" class="back-btn" onclick="backToHumanInvolvement()">Back</button>
+                    <button type="button" onclick="showQuality()">Next</button>
+                </div>
+            </div>
+            <div id="quality" class="section hidden">
+                <h2>Risk Profile</h2>
+                <table>
+                    <!-- Quality Field -->
+                    <tr>
+                        <td>{{ form.quality.label }}</td>
+                        <td>{{ form.quality }}</td>
+                    </tr>
+                    
+                </table>
+                <div class="btn-group">
+                    <button type="button" class="back-btn" onclick="backToRiskProfile()">Back</button>
                     <button type="submit" class="btn btn-success">Submit</button>
                 </div>
             </div>
@@ -249,6 +338,42 @@
 
             $("#remove-button").click(function() {
                 $("#text-boxes .form-row:last").remove();
+            });
+            $("#add-data-button").click(function() {
+                var index = $("#data-boxes .form-row").length;
+                var newDataBox = `
+                    <div class="form-row align-items-center">
+                        <div class="form-group col-md-2">
+                            <label for="data-${index}-name">Name</label>
+                            <input type="text" class="form-control" name="data-${index}-name" id="data-${index}-name">
+                        </div>
+                        <div class="form-group col-md-2">
+                            <label for="data-${index}-isPersonalData">Personal Data</label>
+                            <input type="checkbox" name="data-${index}-isPersonalData" id="data-${index}-isPersonalData">
+                        </div>
+                        <div class="form-group col-md-2">
+                            <label for="data-${index}-category">Category</label>
+                            <input type="text" class="form-control" name="data-${index}-category" id="data-${index}-category">
+                        </div>
+                        <div class="form-group col-md-2">
+                            <label for="data-${index}-isnonPersonalData">Non-Personal Data</label>
+                            <input type="checkbox" name="data-${index}-isnonPersonalData" id="data-${index}-isnonPersonalData">
+                        </div>
+                        <div class="form-group col-md-2">
+                            <label for="data-${index}-isAnonymisedData">Anonymised Data</label>
+                            <input type="checkbox" name="data-${index}-isAnonymisedData" id="data-${index}-isAnonymisedData">
+                        </div>
+                        <div class="form-group col-md-2">
+                            <label for="data-${index}-isLisencedData">Lisenced Data</label>
+                            <input type="checkbox" name="data-${index}-isLisencedData" id="data-${index}-isLisencedData">
+                        </div>
+                    </div>
+                `;
+                $("#data-boxes").append(newDataBox);
+            });
+    
+            $("#remove-data-button").click(function() {
+                $("#data-boxes .form-row:last").remove();
             });
         });
     </script>
