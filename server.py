@@ -12,28 +12,29 @@ class AICardsForm(FlaskForm):
     name = StringField("Name", validators=[InputRequired(), Length(min=2, max=150)])
     version = StringField("Version", validators=[InputRequired(), Length(min=4, max=5)])
     aiTechniques = SelectMultipleField(
-        "AI Techniques", validators=[InputRequired(),], 
+        u'AI Techniques', 
         choices=[
-            ('reasoning_technique', 'Reasoning Technique'),
-            ('learning_technique', 'Learning Technique'),
-            ('machine_learning_technique', 'MachineLearning Technique'),
-            ('case_based_reasoning', 'Case Based Reasoning'),
-            ('common_sense_reasoning', 'Common Sense Reasoning'),
-            ('reinforcement_learning', 'Reinforcement Learning'),
-            ('supervised_learning', 'Supervised Learning'),
-            ('semi_supervised_learning', 'Semi Supervised Learning'),
-            ('unsupervised_learning', 'Unsupervised Learning'),
-            ('knowledge_based_technique', 'Knowledge Based Technique'),
-            ('inductive_programming', 'Inductive Programming'),
-            ('symbolic_reasoning', 'Symbolic Reasoning'),
-            ('knowledge_representation', 'Knowledge Representation'),
-            ('logic_based_technique', 'Logic Based Technique'),
-            ('statistical_technique', 'Statistical Technique'),
-            ('bayesian_estimation', 'Bayesian Estimation'),
-            ('bayesian_optimisation', 'Bayesian Optimisation'),
-            ('optimisation_method', 'Optimisation Method'),
-            ('search_method', 'Search Method')
+                ('reasoning_technique', 'Reasoning Technique'),
+                ('learning_technique', 'Learning Technique'),
+                ('machine_learning_technique', 'MachineLearning Technique'),
+                ('case_based_reasoning', 'Case Based Reasoning'),
+                ('common_sense_reasoning', 'Common Sense Reasoning'),
+                ('reinforcement_learning', 'Reinforcement Learning'),
+                ('supervised_learning', 'Supervised Learning'),
+                ('semi_supervised_learning', 'Semi Supervised Learning'),
+                ('unsupervised_learning', 'Unsupervised Learning'),
+                ('knowledge_based_technique', 'Knowledge Based Technique'),
+                ('inductive_programming', 'Inductive Programming'),
+                ('symbolic_reasoning', 'Symbolic Reasoning'),
+                ('knowledge_representation', 'Knowledge Representation'),
+                ('logic_based_technique', 'Logic Based Technique'),
+                ('statistical_technique', 'Statistical Technique'),
+                ('bayesian_estimation', 'Bayesian Estimation'),
+                ('bayesian_optimisation', 'Bayesian Optimisation'),
+                ('optimisation_method', 'Optimisation Method'),
+                ('search_method', 'Search Method')
         ],
+        render_kw={"class": "custom-select-lg"}
     )
     providers = StringField("Provider(s)", validators=[InputRequired(), Length(min=4, max=150)])
     developers = StringField("Developer(s)", validators=[InputRequired(), Length(min=4, max=150)])
@@ -155,9 +156,10 @@ class AICardsForm(FlaskForm):
             ('border_control_security_check', 'Border Control Security Check'),
             ('job_profile_matching', 'Job Profile Matching'),
         ],
+        render_kw={"class": "custom-select-lg"}
     )
     domain = SelectMultipleField(
-        "AI Techniques", validators=[InputRequired(),], 
+        "Domain", validators=[InputRequired(),], 
         choices = [
             ('critical_infrastructure', 'Critical Infrastructure'),
             ('education', 'Education'),
@@ -171,8 +173,45 @@ class AICardsForm(FlaskForm):
             ('administration_of_justice', 'Administration Of Justice'),
             ('administration_of_democratic_processes', 'Administration Of Democratic Processes')
         ],
+        render_kw={"class": "custom-select-lg"}
     )
-    capability = TextAreaField("Capability", validators=[InputRequired()])
+    capability = SelectMultipleField(
+    "Capability", validators=[InputRequired()],
+    choices=[
+        ('biometric_identification', 'Biometric Identification'),
+        ('remote_biometric_identification', 'Remote Biometric Identification'),
+        ('personality_traits_analysis', 'Personality Traits Analysis'),
+        ('emotion_recognition', 'Emotion Recognition'),
+        ('profiling', 'Profiling'),
+        ('face_recognition', 'Face Recognition'),
+        ('computer_vision', 'Computer Vision'),
+        ('image_recognition', 'Image Recognition'),
+        ('automatic_summarisation', 'Automatic Summarisation'),
+        ('dialogue_management', 'Dialogue Management'),
+        ('information_retrieval', 'Information Retrieval'),
+        ('machine_translation', 'Machine Translation'),
+        ('named_entity_recognition', 'Named Entity Recognition'),
+        ('natural_language_generation', 'Natural Language Generation'),
+        ('part_of_speech_tagging', 'Part Of Speech Tagging'),
+        ('question_answering', 'Question Answering'),
+        ('relationship_extraction', 'Relationship Extraction'),
+        ('speech_recognition', 'Speech Recognition'),
+        ('speech_synthesis', 'Speech Synthesis'),
+        ('pattern_recognition', 'Pattern Recognition'),
+        ('action_recognition', 'Action Recognition'),
+        ('gesture_recognition', 'Gesture Recognition'),
+        ('object_recognition', 'Object Recognition'),
+        ('music_information_retrieval', 'Music Information Retrieval'),
+        ('sound_event_recognition', 'Sound Event Recognition'),
+        ('sound_synthesis', 'Sound Synthesis'),
+        ('sound_source_separation', 'Sound Source Separation'),
+        ('speaker_recognition', 'Speaker Recognition'),
+        ('lie_detection', 'Lie Detection'),
+        ('sentiment_analysis', 'Sentiment Analysis')
+    ],
+    render_kw={"class": "custom-select-lg"}
+)
+
     deployers = TextAreaField("Deployers", validators=[InputRequired()])
     aisubjects = SelectMultipleField(
         "AI Subjects", validators=[InputRequired(),], 
@@ -195,6 +234,7 @@ class AICardsForm(FlaskForm):
             ('visa_applicant', 'Visa Applicant'),
             ('passenger', 'Passenger')
         ],
+        render_kw={"class": "custom-select-lg"}
     )
     human_involvement = SelectField(
         "Human Involvement", validators=[InputRequired()],
@@ -204,7 +244,8 @@ class AICardsForm(FlaskForm):
             ('human_involvement_for_oversight', 'Human Involvement For Oversight'),
             ('human_involvement_for_verification', 'Human Involvement For Verification'),
             ('human_not_involved', 'Human Not Involved')
-        ]
+        ],
+        render_kw={"class": "custom-select-sm"}
     )
     level_of_automation = SelectField(
         "Level of Automation", validators=[InputRequired()],
@@ -216,7 +257,8 @@ class AICardsForm(FlaskForm):
             ('high_automation', 'High Automation'),
             ('not_automated', 'Not Automated'),
             ('partial_automation', 'Partial Automation')
-        ]
+        ],
+        render_kw={"class": "custom-select-sm"}
     )
     isOrganisational = BooleanField('Organisational', default=False)
     isTechnical = BooleanField('Technical', default=False)
@@ -232,41 +274,36 @@ class AICardsForm(FlaskForm):
             ('3_', '3'),
             ('4_', '4'),
             ('5_', '5')
-        ]
+        ],
+        render_kw={"class": "custom-select-sm"}
     )
-
-
-
-class TextBoxForm(FlaskForm):
-    name = StringField('Name', validators=[InputRequired()], render_kw={"class": "form-control"})
+    
+    involved_person = StringField('Involved Person', validators=[InputRequired()], render_kw={"class": "form-control"})
+    isIntended = BooleanField('Intended', default=False)
+    isActive = BooleanField('Active', default=False)
+    isInformed = BooleanField('Informed', default=False)
     description = TextAreaField('Description', validators=[InputRequired()], render_kw={"class": "form-control"})
-
-class DataBoxForm(FlaskForm):
-    title = StringField('Name', validators=[InputRequired()], render_kw={"class": "form-control"})
     isPersonalData = BooleanField('Personal Data', default=False)
-    category = StringField('Category', validators=[InputRequired()], render_kw={"class": "form-control"})
-    isnonPersonalData = BooleanField('Non-Personal Data', default=False)
+    personal_category = StringField('Category', validators=[DataRequired()], render_kw={"class": "form-control"})
     isAnonymisedData = BooleanField('Anonymised Data', default=False)
+    anonymised_category = StringField('Category', validators=[DataRequired()], render_kw={"class": "form-control"})
     isLisencedData = BooleanField('Lisenced Data', default=False)
-
-# Define a dynamic form with a list of text box forms
-class DynamicForm(FlaskForm):
-    components = FieldList(FormField(TextBoxForm), min_entries=1)
-    add_button = SubmitField('Add')
-    remove_button = SubmitField('Remove')
-    
-class DataDynamicForm(FlaskForm):
-    data = FieldList(FormField(DataBoxForm), min_entries=1)
-    add_button = SubmitField('Add')
-    remove_button = SubmitField('Remove')
-    
+    lisenced_category = StringField('Category', validators=[DataRequired()], render_kw={"class": "form-control"})
+    data_type = SelectField(
+        "Data Type", validators=[InputRequired()],
+        choices=[
+            ('model', 'Model'),
+            ('system', 'System,'),
+            ('dataset', 'Dataset'),
+            ('general purpose', 'General Purpose')
+        ],
+        render_kw={"class": "custom-select-sm"}
+    )
 
 # Route for the index page
 @app.route("/", methods=["GET", "POST"])
 def index():
     form = AICardsForm()
-    dynamic_form = DynamicForm()
-    data_dynamic_form = DataDynamicForm()
 
     if request.method == "POST":
         if 'add-button' in request.form:
@@ -277,7 +314,7 @@ def index():
             result = {key: request.form.getlist(key) for key in request.form.keys()}
             return render_template("results.html.j2", result=result)
 
-    return render_template("home.html.j2", form=form, dynamic_form=dynamic_form, data_dynamic_form=data_dynamic_form)
+    return render_template("home.html.j2", form=form)
 
 # Run the Flask app
 if __name__ == '__main__':
