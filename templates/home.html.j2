@@ -10,7 +10,7 @@
             font-family: Arial, sans-serif;
         }
         .container {
-            width: 60%;
+            width: 80%;
             margin: 0 auto;
             padding: 20px;
             border: 1px solid #ccc;
@@ -136,6 +136,14 @@
             document.getElementById('risk-profile').classList.add('hidden');
             document.getElementById('quality').classList.remove('hidden');
         }
+        function showPredetermined() {
+            document.getElementById('quality').classList.add('hidden');
+            document.getElementById('pre-determined').classList.remove('hidden');
+        }
+        function showComp_Cert() {
+            document.getElementById('pre-determined').classList.add('hidden');
+            document.getElementById('comp_cert').classList.remove('hidden');
+        }
         function backToGeneralInfo() {
             document.getElementById('intended-use').classList.add('hidden');
             document.getElementById('general-info').classList.remove('hidden');
@@ -160,6 +168,15 @@
             document.getElementById('quality').classList.add('hidden');
             document.getElementById('risk-profile').classList.remove('hidden');
         }
+        function backToQuality() {
+            document.getElementById('pre-determined').classList.add('hidden');
+            document.getElementById('quality').classList.remove('hidden');
+        }
+        function backToPredetermined() {
+            document.getElementById('comp_cert').classList.add('hidden');
+            document.getElementById('pre-determined').classList.remove('hidden');
+        }
+        
     </script>
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
@@ -170,57 +187,58 @@
     <div class="container">
         <form method="post" action="{{ url_for('index') }}">
             <div id="general-info" class="section">
-                <h2>General Information</h2>
-                <table>
-                    <!-- General Information fields -->
-                    <tr>
-                        <td>
-                            {{ form.name.label }}
-                            <span data-toggle="tooltip" data-placement="right" title="Enter the full name of the software">
-                                <i class="fas fa-question-circle"></i>
-                            </span>
-                        </td>
-                        <td>{{ form.name }}</td>
-                    </tr>
-                    <tr>
-                        <td>
-                            {{ form.version.label }}
-                            <span data-toggle="tooltip" data-placement="right" title="Enter the version of the software">
-                                <i class="fas fa-question-circle"></i>
-                            </span>
-                        </td>
-                        <td>{{ form.version }}</td>
-                    </tr>
-                    <tr>
-                        <td>
-                            {{ form.providers.label }}
-                            <span data-toggle="tooltip" data-placement="right" title="List the providers of the software">
-                                <i class="fas fa-question-circle"></i>
-                            </span>
-                        </td>
-                        <td>{{ form.providers }}</td>
-                    </tr>
-                    <tr>
-                        <td>
-                            {{ form.developers.label }}
-                            <span data-toggle="tooltip" data-placement="right" title="List the developers of the software">
-                                <i class="fas fa-question-circle"></i>
-                            </span>
-                        </td>
-                        <td>{{ form.developers }}</td>
-                    </tr>
-                </table>
-                <div class="btn-group">
-                    <button type="button" onclick="showIntendedUse()">Next</button>
-                </div>
+                <h2>1. General Information</h2>
+            <table>
+                <!-- General Information fields -->
+                <tr>
+                    <td>
+                        1.1 {{ form.name.label }}:
+                        <span data-toggle="tooltip" data-placement="right" title="Enter the full name of the software">
+                            <i class="fas fa-question-circle"></i>
+                        </span>
+                    </td>
+                    <td>{{ form.name }}</td>
+                </tr>
+                <tr>
+                    <td>
+                        1.2 {{ form.version.label }}:
+                        <span data-toggle="tooltip" data-placement="right" title="Enter the version of the software">
+                            <i class="fas fa-question-circle"></i>
+                        </span>
+                    </td>
+                    <td>{{ form.version }}</td>
+                </tr>
+                <tr>
+                    <td>
+                        1.3 {{ form.providers.label }}:
+                        <span data-toggle="tooltip" data-placement="right" title="List the providers of the software">
+                            <i class="fas fa-question-circle"></i>
+                        </span>
+                    </td>
+                    <td>{{ form.providers }}</td>
+                </tr>
+                <tr>
+                    <td>
+                        1.4 {{ form.developers.label }}:
+                        <span data-toggle="tooltip" data-placement="right" title="List the developers of the software">
+                            <i class="fas fa-question-circle"></i>
+                        </span>
+                    </td>
+                    <td>{{ form.developers }}</td>
+                </tr>
+            </table>
+            <div class="btn-group">
+                <button type="button" onclick="showIntendedUse()">Next</button>
             </div>
-            <div id="intended-use" class="section hidden">
-                <h2>Intended Use</h2>
+        </div>
+
+        <div id="intended-use" class="section hidden">
+                <h2>2. Intended Use</h2>
                 <table>
                     <!-- Intended Use fields -->
                     <tr>
                         <td>
-                            {{ form.domain.label }}
+                            2.1 {{ form.domain.label }}:
                             <span data-toggle="tooltip" data-placement="right" title="Enter the domain of the software">
                                 <i class="fas fa-question-circle"></i>
                             </span>
@@ -229,7 +247,7 @@
                     </tr>
                     <tr>
                         <td>
-                            {{ form.purpose.label }}
+                            2.2 {{ form.purpose.label }}:
                             <span data-toggle="tooltip" data-placement="right" title="Describe the purpose of the software">
                                 <i class="fas fa-question-circle"></i>
                             </span>
@@ -238,7 +256,7 @@
                     </tr>
                     <tr>
                         <td>
-                            {{ form.capability.label }}
+                            2.3 {{ form.capability.label }}:
                             <span data-toggle="tooltip" data-placement="right" title="Outline the capabilities of the software">
                                 <i class="fas fa-question-circle"></i>
                             </span>
@@ -247,7 +265,7 @@
                     </tr>
                     <tr>
                         <td>
-                            {{ form.deployers.label }}
+                            2.4 {{ form.deployers.label }}:
                             <span data-toggle="tooltip" data-placement="right" title="List the deployers of the software">
                                 <i class="fas fa-question-circle"></i>
                             </span>
@@ -256,7 +274,7 @@
                     </tr>
                     <tr>
                         <td>
-                            {{ form.aiTechniques.label }}
+                            2.5 {{ form.aiTechniques.label }}:
                             <span data-toggle="tooltip" data-placement="right" title="List the AI techniques used">
                                 <i class="fas fa-question-circle"></i>
                             </span>
@@ -265,7 +283,7 @@
                     </tr>
                     <tr>
                         <td>
-                            {{ form.aisubjects.label }}
+                            2.6 {{ form.aisubjects.label }}:
                             <span data-toggle="tooltip" data-placement="right" title="Identify the AI subjects of the software">
                                 <i class="fas fa-question-circle"></i>
                             </span>
@@ -278,48 +296,49 @@
                     <button type="button" onclick="showKeyComponents()">Next</button>
                 </div>
             </div>
+
             <div id="key-components" class="section hidden">
-                <h2>Key Components</h2>
-                    <table id ="key-components-table">
-                        <!-- Intended Use fields -->
-                        <tr>
-                            <td>
-                                {{ form.name.label }}
-                                <span data-toggle="tooltip" data-placement="right" title="Enter the domain of the software">
-                                    <i class="fas fa-question-circle"></i>
-                                </span>
-                            </td>
-                            <td>{{ form.name }}</td>
-                        </tr>
-                        <tr>
-                            <td>
-                                {{ form.description.label }}
-                                <span data-toggle="tooltip" data-placement="right" title="Describe the purpose of the software">
-                                    <i class="fas fa-question-circle"></i>
-                                </span>
-                            </td>
-                            <td>{{ form.description }}</td>
-                        </tr>
-                    </table>
-                    <button type="button" onclick="addKeyComponents()">Add</button>
-                    <div class="btn-group">
-                        <button type="button" class="back-btn" onclick="backToIntendedUse()">Back</button>
-                        <button type="button" onclick="showDataProcessing()">Next</button>
-                    </div>
-            </div>
-            <div id="data-processing" class="section hidden">
-                <h2>Data Processing</h2>
-                <table id="data-processing-table">
-                    <tr>
-                        <td>{{ form.data_type.label }}
+                <h2>3. Key Components</h2>
+                <table id="key-components-table">
+                    <!-- Key Components fields -->
+                    <tr class="original-row-3">
+                        <td>3.1 {{ form.data_type.label }}
                             <span data-toggle="tooltip" data-placement="right" title="Enter the title for this data processing entry">
                                 <i class="fas fa-question-circle"></i>
                             </span>
                         </td>
                         <td>{{ form.data_type }}</td>
                     </tr>
-                    <tr>
-                        <td>{{ form.name.label }}
+                    <tr class="original-row-3">
+                        <td>
+                            3.2 {{ form.name.label }}:
+                            <span data-toggle="tooltip" data-placement="right" title="Enter the name of the key component">
+                                <i class="fas fa-question-circle"></i>
+                            </span>
+                        </td>
+                        <td>{{ form.name }}</td>
+                    </tr>
+                    <tr class="original-row-3">
+                        <td>
+                            3.3 {{ form.description.label }}:
+                            <span data-toggle="tooltip" data-placement="right" title="Describe the key component">
+                                <i class="fas fa-question-circle"></i>
+                            </span>
+                        </td>
+                        <td>{{ form.description }}</td>
+                    </tr>
+                </table>
+                <button type="button" onclick="addKeyComponents()">Add</button>
+                <div class="btn-group">
+                    <button type="button" class="back-btn" onclick="backToIntendedUse()">Back</button>
+                    <button type="button" onclick="showDataProcessing()">Next</button>
+                </div>
+            </div>
+            <div id="data-processing" class="section hidden">
+                <h2>4. Data Processing</h2>
+                <table id="data-processing-table">
+                    <tr class="original-row">
+                        <td>4.1 {{ form.name.label }}
                             <span data-toggle="tooltip" data-placement="right" title="Enter the title for this data processing entry">
                                 <i class="fas fa-question-circle"></i>
                             </span>
@@ -327,7 +346,7 @@
                         <td>{{ form.name }}</td>
                     </tr>
                     <tr class="original-row">
-                        <td>{{ form.isPersonalData.label }}
+                        <td>4.2 {{ form.isPersonalData.label }}
                             <span data-toggle="tooltip" data-placement="right" title="Enter the title for this data processing entry">
                                 <i class="fas fa-question-circle"></i>
                             </span>
@@ -335,7 +354,7 @@
                         <td>{{ form.isPersonalData }}</td>
                     </tr>
                     <tr class="original-row">
-                        <td>{{ form.isAnonymisedData.label }}
+                        <td>4.3 {{ form.isAnonymisedData.label }}
                             <span data-toggle="tooltip" data-placement="right" title="Enter the title for this data processing entry">
                                 <i class="fas fa-question-circle"></i>
                             </span>
@@ -343,7 +362,7 @@
                         <td>{{ form.isAnonymisedData }}</td>
                     </tr>
                     <tr class="original-row">
-                        <td>{{ form.isLisencedData.label }}
+                        <td>4.4 {{ form.isLisencedData.label }}
                             <span data-toggle="tooltip" data-placement="right" title="Enter the title for this data processing entry">
                                 <i class="fas fa-question-circle"></i>
                             </span>
@@ -360,11 +379,11 @@
                 </div>
             </div>
             <div id="human-involvement" class="section hidden">
-                <h2>Human Involvement</h2>
+                <h2>5. Human Involvement</h2>
                 <table id="human-involvement-table">
                     <!-- Human Involvement fields -->
                     <tr>
-                        <td>{{ form.level_of_automation.label }}
+                        <td>5.1 {{ form.level_of_automation.label }}
                             <span data-toggle="tooltip" data-placement="right" title="Enter the title for this data processing entry">
                                 <i class="fas fa-question-circle"></i>
                             </span>
@@ -372,39 +391,39 @@
                         <td>{{ form.level_of_automation }}</td>
                     </tr>
                     <tr>
-                        <td>{{ form.human_involvement.label }}
+                        <td>5.2 {{ form.human_involvement.label }}
                             <span data-toggle="tooltip" data-placement="right" title="Enter the title for this data processing entry">
                                 <i class="fas fa-question-circle"></i>
                             </span>
                         </td>
                         <td>{{ form.human_involvement }}</td>
                     </tr>
-                    <tr class="original-row">
-                        <td>{{ form.involved_person.label }}
+                    <tr class="original-row-2">
+                        <td>5.3 {{ form.involved_person.label }}
                             <span data-toggle="tooltip" data-placement="right" title="Enter the title for this data processing entry">
                                 <i class="fas fa-question-circle"></i>
                             </span>
                         </td>
                         <td>{{ form.involved_person }}</td>
                     </tr>
-                    <tr class="original-row">
-                        <td>{{ form.isIntended.label }}
+                    <tr class="original-row-2">
+                        <td>5.4 {{ form.isIntended.label }}
                             <span data-toggle="tooltip" data-placement="right" title="Enter the title for this data processing entry">
                                 <i class="fas fa-question-circle"></i>
                             </span>
                         </td>
                         <td>{{ form.isIntended }}</td>
                     </tr>
-                    <tr class="original-row">
-                        <td>{{ form.isActive.label }}
+                    <tr class="original-row-2">
+                        <td>5.5 {{ form.isActive.label }}
                             <span data-toggle="tooltip" data-placement="right" title="Enter the title for this data processing entry">
                                 <i class="fas fa-question-circle"></i>
                             </span>
                         </td>
                         <td>{{ form.isActive }}</td>
                     </tr>
-                    <tr class="original-row">
-                        <td>{{ form.isInformed.label }}
+                    <tr class="original-row-2">
+                        <td>5.6 {{ form.isInformed.label }}
                             <span data-toggle="tooltip" data-placement="right" title="Enter the title for this data processing entry">
                                 <i class="fas fa-question-circle"></i>
                             </span>
@@ -419,56 +438,245 @@
                     <button type="button" class="back-btn" onclick="backToDataProcessing()">Back</button>
                     <button type="button" onclick="showRiskProfile()">Next</button>
                 </div>
-            </div>
+            </div>            
             <div id="risk-profile" class="section hidden">
-                <h2>Risk Profile</h2>
-                <table>
-                    <!-- Risk Profile fields -->
-                    <tr>
-                        <td>{{ form.isOrganisational.label }}</td>
-                        <td>{{ form.isOrganisational }}</td>
-                    </tr>
-                    <tr>
-                        <td>{{ form.isTechnical.label }}</td>
-                        <td>{{ form.isTechnical }}</td>
-                    </tr>
-                    <tr>
-                        <td>{{ form.isMonitoring.label }}</td>
-                        <td>{{ form.isMonitoring }}</td>
-                    </tr>
-                    <tr>
-                        <td>{{ form.isSecurity.label }}</td>
-                        <td>{{ form.isSecurity }}</td>
-                    </tr>
-                    <tr>
-                        <td>{{ form.isTransparency.label }}</td>
-                        <td>{{ form.isTransparency }}</td>
-                    </tr>
-                    <tr>
-                        <td>{{ form.isLogging.label }}</td>
-                        <td>{{ form.isLogging }}</td>
-                    </tr>
+                <h2>6. Risk Profile</h2>
+                <table style="width: 100%;">
+                    <table border="1" style="width:100%; border-collapse:collapse;">
+                        <thead>
+                            <tr>
+                                <th rowspan="2">Impact on</th>
+                                <th colspan="3">Risks</th>
+                                <th colspan="6">Measures</th>
+                            </tr>
+                            <tr>
+                                <td><strong>6.1 {{ form.likelihood.label }}</strong>
+                                    <span data-toggle="tooltip" data-placement="right" title="Enter the accuracy of the software">
+                                        <i class="fas fa-question-circle"></i>
+                                    </span></td>
+                                <td><strong>6.2 {{ form.severity.label }}</strong>
+                                    <span data-toggle="tooltip" data-placement="right" title="Enter the accuracy of the software">
+                                        <i class="fas fa-question-circle"></i>
+                                    </span></td>
+                                <td><strong>6.3 {{ form.residual.label }}</strong>
+                                    <span data-toggle="tooltip" data-placement="right" title="Enter the accuracy of the software">
+                                        <i class="fas fa-question-circle"></i>
+                                    </span></td>
+                                <td><strong>6.4 {{ form.isOrganisational.label }}</strong>
+                                    <span data-toggle="tooltip" data-placement="right" title="Enter the accuracy of the software">
+                                        <i class="fas fa-question-circle"></i>
+                                    </span></td>
+                                <td><strong>6.5 {{ form.isTechnical.label }}</strong>
+                                    <span data-toggle="tooltip" data-placement="right" title="Enter the accuracy of the software">
+                                        <i class="fas fa-question-circle"></i>
+                                    </span></td>
+                                <td><strong>6.6 {{ form.isMonitoring.label }}</strong>
+                                    <span data-toggle="tooltip" data-placement="right" title="Enter the accuracy of the software">
+                                        <i class="fas fa-question-circle"></i>
+                                    </span></td>
+                                <td><strong>6.7 {{ form.isSecurity.label }}</strong>
+                                    <span data-toggle="tooltip" data-placement="right" title="Enter the accuracy of the software">
+                                        <i class="fas fa-question-circle"></i>
+                                    </span></td>
+                                <td><strong>6.8 {{ form.isTransparency.label }}</strong>
+                                    <span data-toggle="tooltip" data-placement="right" title="Enter the accuracy of the software">
+                                        <i class="fas fa-question-circle"></i>
+                                    </span></td>
+                                <td><strong>6.9 {{ form.isLogging.label }}</strong>
+                                    <span data-toggle="tooltip" data-placement="right" title="Enter the accuracy of the software">
+                                        <i class="fas fa-question-circle"></i>
+                                    </span></td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td rowspan="2">Health & Safety</td>
+                            </tr>
+                            <tr>
+                                <td>{{ form.likelihood }}</td>
+                                <td>{{ form.severity }}</td>
+                                <td>{{ form.residual }}</td>
+                                <td>{{ form.isOrganisational }}</td>
+                                <td>{{ form.isTechnical }}</td>
+                                <td>{{ form.isMonitoring }}</td>
+                                <td>{{ form.isSecurity }}</td>
+                                <td>{{ form.isTransparency }}</td>
+                                <td>{{ form.isLogging }}</td>
+                            </tr>
+                            <tr>
+                                <td rowspan="2">Fundamental Rights</td>
+                            </tr>
+                            <tr>
+                                <td>{{ form.likelihood }}</td>
+                                <td>{{ form.severity }}</td>
+                                <td>{{ form.residual }}</td>
+                                <td>{{ form.isOrganisational }}</td>
+                                <td>{{ form.isTechnical }}</td>
+                                <td>{{ form.isMonitoring }}</td>
+                                <td>{{ form.isSecurity }}</td>
+                                <td>{{ form.isTransparency }}</td>
+                                <td>{{ form.isLogging }}</td>
+                            </tr>
+                            <tr>
+                                <td rowspan="2">Society</td>
+                            </tr>
+                            <tr>
+                                <td>{{ form.likelihood }}</td>
+                                <td>{{ form.severity }}</td>
+                                <td>{{ form.residual }}</td>
+                                <td>{{ form.isOrganisational }}</td>
+                                <td>{{ form.isTechnical }}</td>
+                                <td>{{ form.isMonitoring }}</td>
+                                <td>{{ form.isSecurity }}</td>
+                                <td>{{ form.isTransparency }}</td>
+                                <td>{{ form.isLogging }}</td>
+                            </tr>
+                            <tr>
+                                <td rowspan="2">Environmental</td>
+                            </tr>
+                            <tr>
+                                <td>{{ form.likelihood }}</td>
+                                <td>{{ form.severity }}</td>
+                                <td>{{ form.residual }}</td>
+                                <td>{{ form.isOrganisational }}</td>
+                                <td>{{ form.isTechnical }}</td>
+                                <td>{{ form.isMonitoring }}</td>
+                                <td>{{ form.isSecurity }}</td>
+                                <td>{{ form.isTransparency }}</td>
+                                <td>{{ form.isLogging }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </table>
                 <div class="btn-group">
                     <button type="button" class="back-btn" onclick="backToHumanInvolvement()">Back</button>
                     <button type="button" onclick="showQuality()">Next</button>
                 </div>
-            </div>
+            </div>            
             <div id="quality" class="section hidden">
-                <h2>Risk Profile</h2>
+                <h2>7. Quality</h2>
                 <table>
                     <!-- Quality Field -->
                     <tr>
-                        <td>{{ form.quality.label }}</td>
-                        <td>{{ form.quality }}</td>
+                        <td>7.1 {{ form.accuracy.label }}
+                            <span data-toggle="tooltip" data-placement="right" title="Enter the accuracy of the software">
+                                <i class="fas fa-question-circle"></i>
+                            </span>
+                        </td>
+                        <td>{{ form.accuracy }}</td>
                     </tr>
-                    
+                    <tr>
+                        <td>7.2 {{ form.cybersecurity.label }}
+                            <span data-toggle="tooltip" data-placement="right" title="Enter the accuracy of the software">
+                                <i class="fas fa-question-circle"></i>
+                            </span>
+                        </td>
+                        <td>{{ form.cybersecurity }}</td>
+                    </tr>
+                    <tr>
+                        <td>7.3 {{ form.robustness.label }}
+                            <span data-toggle="tooltip" data-placement="right" title="Enter the accuracy of the software">
+                                <i class="fas fa-question-circle"></i>
+                            </span>
+                        </td>
+                        <td>{{ form.robustness }}</td>
+                    </tr>
+                    <tr>
+                        <td>7.4 {{ form.fairness.label }}
+                            <span data-toggle="tooltip" data-placement="right" title="Enter the accuracy of the software">
+                                <i class="fas fa-question-circle"></i>
+                            </span>
+                        </td>
+                        <td>{{ form.fairness }}</td>
+                    </tr>
+                    <tr>
+                        <td>7.5 {{ form.functional.label }}
+                            <span data-toggle="tooltip" data-placement="right" title="Enter the accuracy of the software">
+                                <i class="fas fa-question-circle"></i>
+                            </span>
+                        </td>
+                        <td>{{ form.functional }}</td>
+                    </tr>
+                    <tr>
+                        <td>7.6 {{ form.explainability.label }}
+                            <span data-toggle="tooltip" data-placement="right" title="Enter the accuracy of the software">
+                                <i class="fas fa-question-circle"></i>
+                            </span>
+                        </td>
+                        <td>{{ form.explainability }}</td>
+                    </tr>
+                    <tr>
+                        <td>7.7 {{ form.usability.label }}
+                            <span data-toggle="tooltip" data-placement="right" title="Enter the accuracy of the software">
+                                <i class="fas fa-question-circle"></i>
+                            </span>
+                        </td>
+                        <td>{{ form.usability }}</td>
+                    </tr>
                 </table>
                 <div class="btn-group">
                     <button type="button" class="back-btn" onclick="backToRiskProfile()">Back</button>
-                    <button type="submit" class="btn btn-success">Submit</button>
+                    <button type="button" onclick="showPredetermined()">Next</button>
                 </div>
             </div>
+            <div id="pre-determined" class="section hidden">
+                <h2>8. Pre-determined Changes</h2>
+                <table border="1" style="width:100%; border-collapse:collapse;">
+                    <thead>
+                        <tr>
+                            <th rowspan="2"></th>
+                            <th><strong>8.1 {{ form.frequency.label }}</strong></th>
+                            <th colspan="2">Impact on</th>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td><strong>8.2 {{ form.performance.label }}</strong></td>
+                            <td><strong>8.3 {{ form.risks.label }}</strong></td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Susbehaved model</td>
+                            <td>{{ form.frequency }}</td>
+                            <td>{{ form.performance }}</td>
+                            <td>{{ form.risks }}</td>
+                        </tr>
+                        <tr>
+                            <td>Mitigation measures</td>
+                            <td>{{ form.frequency }}</td>
+                            <td>{{ form.performance }}</td>
+                            <td>{{ form.risks }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="btn-group">
+                    <button type="button" class="back-btn" onclick="backToQuality()">Back</button>
+                    <button type="button" onclick="showComp_Cert()">Next</button>
+                </div>
+            </div>            
+            <div id="comp_cert" class="section hidden">
+                <h2>9. Compliance & Certification</h2>
+                <table border="1" style="width:100%; border-collapse:collapse;">
+                    <tbody>
+                        <tr>
+                            <td><strong>9.1 {{ form.regulations.label }}</strong></td>
+                            <td>{{ form.regulations }}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>9.2 {{ form.standards.label }}</strong></td>
+                            <td>{{ form.standards }}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>9.3 {{ form.codes.label }}</strong></td>
+                            <td>{{ form.codes }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="btn-group">
+                    <button type="button" class="back-btn" onclick="backToPredetermined()">Back</button>
+                    <button type="submit" class="btn btn-success">Submit</button>
+                </div>
+            </div>            
         </form>
     </div>
     <script>
@@ -484,7 +692,7 @@
             var table = document.getElementById('human-involvement-table');
             
             // Define the class of the rows to be duplicated
-            var rowsToDuplicate = document.querySelectorAll('.original-row');
+            var rowsToDuplicate = document.querySelectorAll('.original-row-2');
             
             // Create a document fragment to hold the new rows
             var fragment = document.createDocumentFragment();
@@ -524,54 +732,104 @@
             // Append the fragment to the table
             table.appendChild(fragment);
         }   
+        function addDataProcessing() {
+            // Get the table where the human involvement fields are located
+            var table = document.getElementById('data-processing-table');
+            
+            // Define the class of the rows to be duplicated
+            var rowsToDuplicate = document.querySelectorAll('.original-row');
+            
+            // Create a document fragment to hold the new rows
+            var fragment = document.createDocumentFragment();
+            
+            var newRows = [];
+            rowsToDuplicate.forEach(function(row) {
+                // Clone each row
+                var newRow = row.cloneNode(true);
+                fragment.appendChild(newRow);
+                newRows.push(newRow);
+            });
+        
+            // Create a remove button row and add it to the fragment
+            var removeButtonRow = document.createElement('tr');
+            var removeButtonCell = document.createElement('td');
+            removeButtonCell.colSpan = 2;  // Span the button across two columns
+            var removeButton = document.createElement('button');
+            removeButton.type = 'button';
+            removeButton.textContent = 'Remove';
+            removeButton.onclick = function() {
+                // Remove the new rows associated with this remove button
+                newRows.forEach(function(row) {
+                    if (row.parentNode) {
+                        row.parentNode.removeChild(row);
+                    }
+                });
+                if (removeButtonRow.parentNode) {
+                    removeButtonRow.parentNode.removeChild(removeButtonRow);
+                }
+            };
+            removeButtonCell.appendChild(removeButton);
+            removeButtonRow.appendChild(removeButtonCell);
+            
+            // Append the remove button row to the fragment
+            fragment.appendChild(removeButtonRow);
+            
+            // Append the fragment to the table
+            table.appendChild(fragment);
+        
+            // Add category fields to the duplicated rows
+            newRows.forEach(function(row) {
+                var checkbox = row.querySelector('input[type="checkbox"]');
+                if (checkbox) {
+                    addCategoryField(row);
+                }
+            });
+        }
         function addKeyComponents() {
-            // Get the table where the key components fields are located
+            // Get the table where the human involvement fields are located
             var table = document.getElementById('key-components-table');
             
-            // Clone both rows (name and description)
-            var newRowName = table.rows[0].cloneNode(true);
-            var newRowDescription = table.rows[1].cloneNode(true);
+            // Define the class of the rows to be duplicated
+            var rowsToDuplicate = document.querySelectorAll('.original-row-3');
             
-            // Clear input fields in the cloned rows
-            newRowName.querySelector('input').value = '';
-            newRowDescription.querySelector('textarea').value = '';
+            // Create a document fragment to hold the new rows
+            var fragment = document.createDocumentFragment();
             
-            // Create a remove button cell and button for name row
-            var removeButtonCellName = document.createElement('td');
-            var removeButtonName = document.createElement('button');
-            removeButtonName.type = 'button';
-            removeButtonName.textContent = 'Remove';
-            removeButtonName.onclick = function() {
-                // Remove the rows when the remove button is clicked
-                if (newRowName.parentNode) {
-                    newRowName.parentNode.removeChild(newRowName);
-                    newRowDescription.parentNode.removeChild(newRowDescription);
+            var newRows = [];
+            rowsToDuplicate.forEach(function(row) {
+                // Clone each row
+                var newRow = row.cloneNode(true);
+                fragment.appendChild(newRow);
+                newRows.push(newRow);
+            });
+    
+            // Create a remove button row and add it to the fragment
+            var removeButtonRow = document.createElement('tr');
+            var removeButtonCell = document.createElement('td');
+            removeButtonCell.colSpan = 2;  // Span the button across two columns
+            var removeButton = document.createElement('button');
+            removeButton.type = 'button';
+            removeButton.textContent = 'Remove';
+            removeButton.onclick = function() {
+                // Remove the new rows associated with this remove button
+                newRows.forEach(function(row) {
+                    if (row.parentNode) {
+                        row.parentNode.removeChild(row);
+                    }
+                });
+                if (removeButtonRow.parentNode) {
+                    removeButtonRow.parentNode.removeChild(removeButtonRow);
                 }
             };
-
+            removeButtonCell.appendChild(removeButton);
+            removeButtonRow.appendChild(removeButtonCell);
             
-            // Create a remove button cell and button for description row
-            var removeButtonCellDescription = document.createElement('td');
-            var removeButtonDescription = document.createElement('button');
-            removeButtonDescription.type = 'button';
-            removeButtonDescription.textContent = 'Remove';
-            removeButtonDescription.onclick = function() {
-                // Remove the rows when the remove button is clicked
-                if (newRowName.parentNode) {
-                    newRowName.parentNode.removeChild(newRowName);
-                    newRowDescription.parentNode.removeChild(newRowDescription);
-                }
-            };
-            removeButtonCellDescription.appendChild(removeButtonDescription);
+            // Append the remove button row to the fragment
+            fragment.appendChild(removeButtonRow);
             
-            // Append the remove button cell to the respective rows
-            newRowName.appendChild(removeButtonCellName);
-            newRowDescription.appendChild(removeButtonCellDescription);
-            
-            // Append the new rows to the table
-            table.appendChild(newRowName);
-            table.appendChild(newRowDescription);
-        }
+            // Append the fragment to the table
+            table.appendChild(fragment);
+        }   
         function addCategoryField(booleanRow) {
             var categoryRow = document.createElement('tr');
             var categoryCellLabel = document.createElement('td');
@@ -596,61 +854,13 @@
         
         document.addEventListener('DOMContentLoaded', function () {
             var originalRows = document.querySelectorAll('.original-row');
-            if (originalRows.length >= 3) {
-                addCategoryField(originalRows[0]); // isPersonalData row
-                addCategoryField(originalRows[1]); // isAnonymisedData row
-                addCategoryField(originalRows[2]); // isLisencedData row
-            }
+            originalRows.forEach(function(row) {
+                var checkbox = row.querySelector('input[type="checkbox"]');
+                if (checkbox) {
+                    addCategoryField(row);
+                }
+            });
         });
-        
-        function addDataProcessing() {
-            // Get the table where the data processing fields are located
-            var table = document.getElementById('data-processing-table');
-            
-            // Clone the rows
-            var newRowDataType = table.rows[0].cloneNode(true);
-            var newRowName = table.rows[1].cloneNode(true);
-            var newRowIsPersonal = table.rows[2].cloneNode(true);
-            var newRowIsAnonymised = table.rows[3].cloneNode(true);
-            var newRowIsLisenced = table.rows[4].cloneNode(true);
-        
-            // Clear input fields in the cloned rows
-            if (newRowDataType.querySelector('input')) newRowDataType.querySelector('input').value = '';
-            if (newRowName.querySelector('input')) newRowName.querySelector('input').value = '';
-            if (newRowIsPersonal.querySelector('input')) newRowIsPersonal.querySelector('input').value = '';
-            if (newRowIsAnonymised.querySelector('input')) newRowIsAnonymised.querySelector('input').value = '';
-            if (newRowIsLisenced.querySelector('input')) newRowIsLisenced.querySelector('input').value = '';
-        
-            // Add Category fields based on boolean fields
-            addCategoryField(newRowIsPersonal);
-            addCategoryField(newRowIsAnonymised);
-            addCategoryField(newRowIsLisenced);
-        
-            // Create a remove button cell and button
-            var removeButtonCell = document.createElement('td');
-            var removeButton = document.createElement('button');
-            removeButton.type = 'button';
-            removeButton.textContent = 'Remove';
-            removeButton.onclick = function() {
-                // Remove the rows when the remove button is clicked
-                table.removeChild(newRowDataType);
-                table.removeChild(newRowName);
-                table.removeChild(newRowIsPersonal);
-                table.removeChild(newRowIsAnonymised);
-                table.removeChild(newRowIsLisenced);
-            };
-            removeButtonCell.appendChild(removeButton);
-        
-            // Append the remove button cell to the last row
-            newRowIsLisenced.appendChild(removeButtonCell);
-        
-            // Append the new rows to the table
-            table.appendChild(newRowDataType);
-            table.appendChild(newRowName);
-            table.appendChild(newRowIsPersonal);
-            table.appendChild(newRowIsAnonymised);
-            table.appendChild(newRowIsLisenced);
-        }
     </script>
 </body>
 </html>

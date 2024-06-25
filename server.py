@@ -34,7 +34,9 @@ class AICardsForm(FlaskForm):
                 ('optimisation_method', 'Optimisation Method'),
                 ('search_method', 'Search Method')
         ],
-        render_kw={"class": "custom-select-lg"}
+        render_kw={"class": "custom-select-lg"},
+        default=[],
+        validators=[InputRequired(),]
     )
     providers = StringField("Provider(s)", validators=[InputRequired(), Length(min=4, max=150)])
     developers = StringField("Developer(s)", validators=[InputRequired(), Length(min=4, max=150)])
@@ -156,7 +158,8 @@ class AICardsForm(FlaskForm):
             ('border_control_security_check', 'Border Control Security Check'),
             ('job_profile_matching', 'Job Profile Matching'),
         ],
-        render_kw={"class": "custom-select-lg"}
+        render_kw={"class": "custom-select-lg"},
+        default=[]
     )
     domain = SelectMultipleField(
         "Domain", validators=[InputRequired(),], 
@@ -173,7 +176,8 @@ class AICardsForm(FlaskForm):
             ('administration_of_justice', 'Administration Of Justice'),
             ('administration_of_democratic_processes', 'Administration Of Democratic Processes')
         ],
-        render_kw={"class": "custom-select-lg"}
+        render_kw={"class": "custom-select-lg"},
+        default=[]
     )
     capability = SelectMultipleField(
     "Capability", validators=[InputRequired()],
@@ -209,10 +213,11 @@ class AICardsForm(FlaskForm):
         ('lie_detection', 'Lie Detection'),
         ('sentiment_analysis', 'Sentiment Analysis')
     ],
-    render_kw={"class": "custom-select-lg"}
+    render_kw={"class": "custom-select-lg"},
+    default=[]
 )
 
-    deployers = TextAreaField("Deployers", validators=[InputRequired()])
+    deployers = StringField("Deployers", validators=[InputRequired()])
     aisubjects = SelectMultipleField(
         "AI Subjects", validators=[InputRequired(),], 
         choices = [
@@ -234,7 +239,8 @@ class AICardsForm(FlaskForm):
             ('visa_applicant', 'Visa Applicant'),
             ('passenger', 'Passenger')
         ],
-        render_kw={"class": "custom-select-lg"}
+        render_kw={"class": "custom-select-lg"},
+        default=[]
     )
     human_involvement = SelectField(
         "Human Involvement", validators=[InputRequired()],
@@ -245,7 +251,8 @@ class AICardsForm(FlaskForm):
             ('human_involvement_for_verification', 'Human Involvement For Verification'),
             ('human_not_involved', 'Human Not Involved')
         ],
-        render_kw={"class": "custom-select-sm"}
+        render_kw={"class": "custom-select-sm"},
+        default=[]
     )
     level_of_automation = SelectField(
         "Level of Automation", validators=[InputRequired()],
@@ -258,16 +265,17 @@ class AICardsForm(FlaskForm):
             ('not_automated', 'Not Automated'),
             ('partial_automation', 'Partial Automation')
         ],
-        render_kw={"class": "custom-select-sm"}
+        render_kw={"class": "custom-select-sm"},
+        default=[]
     )
-    isOrganisational = BooleanField('Organisational', default=False)
-    isTechnical = BooleanField('Technical', default=False)
-    isMonitoring = BooleanField('Monitoring', default=False)
-    isSecurity = BooleanField('Security', default=False)
-    isTransparency = BooleanField('Transparency', default=False)
-    isLogging = BooleanField('Logging', default=False)
-    quality = SelectField(
-        "Rate Quality", validators=[InputRequired()],
+    isOrganisational = BooleanField('Are there Organisational measures in place', default=False)
+    isTechnical = BooleanField('Are there Technical measures in place', default=False)
+    isMonitoring = BooleanField('Are there Monitoring measures in place', default=False)
+    isSecurity = BooleanField('Are there Security measures in place', default=False)
+    isTransparency = BooleanField('Are there Transparency measures in place', default=False)
+    isLogging = BooleanField('Are there Logging measures in place', default=False)
+    accuracy = SelectField(
+        "Rate the accuracy of your system", validators=[InputRequired()],
         choices=[
             ('1_', '1'),
             ('2_', '2'),
@@ -275,7 +283,80 @@ class AICardsForm(FlaskForm):
             ('4_', '4'),
             ('5_', '5')
         ],
-        render_kw={"class": "custom-select-sm"}
+        render_kw={"class": "custom-select-sm"},
+        default=[]
+    )
+    cybersecurity = SelectField(
+        "Rate the cybersecurity of your system", validators=[InputRequired()],
+        choices=[
+            ('1_', '1'),
+            ('2_', '2'),
+            ('3_', '3'),
+            ('4_', '4'),
+            ('5_', '5')
+        ],
+        render_kw={"class": "custom-select-sm"},
+        default=[]
+    )
+    robustness = SelectField(
+        "Rate the robustness of your system", validators=[InputRequired()],
+        choices=[
+            ('1_', '1'),
+            ('2_', '2'),
+            ('3_', '3'),
+            ('4_', '4'),
+            ('5_', '5')
+        ],
+        render_kw={"class": "custom-select-sm"},
+        default=[]
+    )
+    fairness = SelectField(
+        "Rate the fairness of your system", validators=[InputRequired()],
+        choices=[
+            ('1_', '1'),
+            ('2_', '2'),
+            ('3_', '3'),
+            ('4_', '4'),
+            ('5_', '5')
+        ],
+        render_kw={"class": "custom-select-sm"},
+        default=[]
+    )
+    functional = SelectField(
+        "Rate the functional adaptabiility of your system", validators=[InputRequired()],
+        choices=[
+            ('1_', '1'),
+            ('2_', '2'),
+            ('3_', '3'),
+            ('4_', '4'),
+            ('5_', '5')
+        ],
+        render_kw={"class": "custom-select-sm"},
+        default=[]
+    )
+    explainability = SelectField(
+        "Rate the explainabillity of your system", validators=[InputRequired()],
+        choices=[
+            ('1_', '1'),
+            ('2_', '2'),
+            ('3_', '3'),
+            ('4_', '4'),
+            ('5_', '5')
+        ],
+        render_kw={"class": "custom-select-sm"},
+        default=[]
+    )
+    usability = SelectField(
+        "Rate the usability of your system", validators=[InputRequired()],
+        choices=[
+            ('1_', '1'),
+            ('2_', '2'),
+            ('3_', '3'),
+            ('4_', '4'),
+            ('5_', '5')
+        ],
+        render_kw={"class": "custom-select-sm"},
+        default=[]
     )
     
     involved_person = StringField('Involved Person', validators=[InputRequired()], render_kw={"class": "form-control"})
@@ -293,28 +374,81 @@ class AICardsForm(FlaskForm):
         "Data Type", validators=[InputRequired()],
         choices=[
             ('model', 'Model'),
-            ('system', 'System,'),
+            ('system', 'System'),
             ('dataset', 'Dataset'),
             ('general purpose', 'General Purpose')
         ],
-        render_kw={"class": "custom-select-sm"}
+        render_kw={"class": "custom-select-sm"},
+        default=[]
     )
+    likelihood = SelectField(
+        "Likelihood of Risk", validators=[InputRequired()],
+        choices=[
+            ('low', 'Low'),
+            ('medium', 'Medium'),
+            ('high', 'High'),
+            ('very high', 'Very High')
+        ],
+        render_kw={"class": "custom-select-sm"},
+        default=[]
+    )
+    severity = SelectField(
+        "Severity of Risk", validators=[InputRequired()],
+        choices=[
+            ('low', 'Low'),
+            ('medium', 'Medium'),
+            ('high', 'High'),
+            ('very high', 'Very High')
+        ],
+        render_kw={"class": "custom-select-sm"},
+        default=[]
+    )
+    residual = SelectField(
+        "Residual Risks", validators=[InputRequired()],
+        choices=[
+            ('low', 'Low'),
+            ('medium', 'Medium'),
+            ('high', 'High'),
+            ('very high', 'Very High')
+        ],
+        render_kw={"class": "custom-select-sm"},
+        default=[],
+    )
+    frequency = StringField('Frequency of Changes', validators=[DataRequired()], render_kw={"class": "form-control"})
+    performance = BooleanField('Performace of Changes', default=False)
+    risks = BooleanField('Risks of Changes', default=False)
+    regulations = TextAreaField('Regulations', validators=[InputRequired()], render_kw={"class": "form-control"})
+    standards = TextAreaField('Standards', validators=[InputRequired()], render_kw={"class": "form-control"})
+    codes = TextAreaField('Codes of Conduct', validators=[InputRequired()], render_kw={"class": "form-control"})
 
 # Route for the index page
-@app.route("/", methods=["GET", "POST"])
+@app.route('/', methods=['GET', 'POST'])
 def index():
     form = AICardsForm()
+    if form.validate_on_submit():
+        # Process form data here
+        data = {
+            'name': form.name.data,
+            'version': form.version.data,
+            'providers': form.providers.data,
+            'developers': form.developers.data,
+            'domain': form.domain.data,
+            'purpose': form.purpose.data,
+            'capability': form.capability.data,
+            'deployers': form.deployers.data,
+            'aiTechniques': form.aiTechniques.data,
+            'aisubjects': form.aisubjects.data,
+            'level_of_automation': form.level_of_automation.data,
+            'human_involvement': form.human_involvement.data,
+            'isOrganisational': form.isOrganisational.data
+        }
+        return redirect(url_for('result', result=data))
+    return render_template('home.html.j2', form=form)
 
-    if request.method == "POST":
-        if 'add-button' in request.form:
-            dynamic_form.components.append_entry()
-        elif 'remove-button' in request.form and len(dynamic_form.components) > 0:
-            dynamic_form.components.pop_entry()
-        elif form.validate_on_submit() and dynamic_form.validate_on_submit():
-            result = {key: request.form.getlist(key) for key in request.form.keys()}
-            return render_template("results.html.j2", result=result)
-
-    return render_template("home.html.j2", form=form)
+@app.route('/result', methods=['GET'])
+def result():
+    result = request.args.get('result')
+    return render_template('result.html.j2', result=result)
 
 # Run the Flask app
 if __name__ == '__main__':
