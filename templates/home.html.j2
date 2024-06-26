@@ -229,9 +229,9 @@
             </table>
             <div class="btn-group">
                 <button type="button" onclick="showIntendedUse()">Next</button>
+                <button type="submit" class="btn btn-success">Submit</button>
             </div>
         </div>
-
         <div id="intended-use" class="section hidden">
                 <h2>2. Intended Use</h2>
                 <table>
@@ -311,12 +311,12 @@
                     </tr>
                     <tr class="original-row-3">
                         <td>
-                            3.2 {{ form.name.label }}:
+                            3.2 {{ form.key_name.label }}:
                             <span data-toggle="tooltip" data-placement="right" title="Enter the name of the key component">
                                 <i class="fas fa-question-circle"></i>
                             </span>
                         </td>
-                        <td>{{ form.name }}</td>
+                        <td>{{ form.key_name }}</td>
                     </tr>
                     <tr class="original-row-3">
                         <td>
@@ -338,12 +338,12 @@
                 <h2>4. Data Processing</h2>
                 <table id="data-processing-table">
                     <tr class="original-row">
-                        <td>4.1 {{ form.name.label }}
+                        <td>4.1 {{ form.data_name.label }}
                             <span data-toggle="tooltip" data-placement="right" title="Enter the title for this data processing entry">
                                 <i class="fas fa-question-circle"></i>
                             </span>
                         </td>
-                        <td>{{ form.name }}</td>
+                        <td>{{ form.data_name }}</td>
                     </tr>
                     <tr class="original-row">
                         <td>4.2 {{ form.isPersonalData.label }}

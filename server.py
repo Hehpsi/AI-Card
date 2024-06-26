@@ -420,36 +420,18 @@ class AICardsForm(FlaskForm):
     regulations = TextAreaField('Regulations', validators=[InputRequired()], render_kw={"class": "form-control"})
     standards = TextAreaField('Standards', validators=[InputRequired()], render_kw={"class": "form-control"})
     codes = TextAreaField('Codes of Conduct', validators=[InputRequired()], render_kw={"class": "form-control"})
-
-# Route for the index page
+    key_name = StringField("Name", validators=[InputRequired(), Length(min=2, max=150)])
+    data_name = StringField("Name", validators=[InputRequired(), Length(min=2, max=150)])
+# 
 @app.route('/', methods=['GET', 'POST'])
 def index():
-    form = AICardsForm()
-    if form.validate_on_submit():
-        # Process form data here
-        data = {
-            'name': form.name.data,
-            'version': form.version.data,
-            'providers': form.providers.data,
-            'developers': form.developers.data,
-            'domain': form.domain.data,
-            'purpose': form.purpose.data,
-            'capability': form.capability.data,
-            'deployers': form.deployers.data,
-            'aiTechniques': form.aiTechniques.data,
-            'aisubjects': form.aisubjects.data,
-            'level_of_automation': form.level_of_automation.data,
-            'human_involvement': form.human_involvement.data,
-            'isOrganisational': form.isOrganisational.data
-        }
-        return redirect(url_for('result', result=data))
-    return render_template('home.html.j2', form=form)
-
-@app.route('/result', methods=['GET'])
-def result():
-    result = request.args.get('result')
-    return render_template('result.html.j2', result=result)
-
-# Run the Flask app
+    form = AICardsForm(request.form)
+    if request.method == "POST" and form.validate():
+        # Convert the form data to a dictionary
+        result = {key: request.form.getlist(key) for key in request.form.keys()}
+        print(result)
+        return render_template("results.html.j2", result=result)
+    return render_template("home.html.j2", form=form)
+    
 if __name__ == '__main__':
     app.run(host="0.0.0.0", port=5001, debug=True)

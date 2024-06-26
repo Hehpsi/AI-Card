@@ -26,22 +26,28 @@
 <h2>Results Table</h2>
 
 <table border="1">
-    {% for key, values in result.items() %}
-    <tr>
-        <th>{{ key }}</th>
-        <td>
-            {% if values is iterable and values is not string %}
-                <ul>
-                    {% for value in values %}
-                    <li>{{ value }}</li>
-                    {% endfor %}
-                </ul>
-            {% else %}
-                {{ values }}
-            {% endif %}
-        </td>
-    </tr>
-    {% endfor %}
+    {% if result %}
+        {% for key, values in result.items() %}
+        <tr>
+            <th>{{ key }}</th>
+            <td>
+                {% if values is iterable and values is not string %}
+                    <ul>
+                        {% for value in values %}
+                        <li>{{ value }}</li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    {{ values }}
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    {% else %}
+        <tr>
+            <td colspan="2">No results to display.</td>
+        </tr>
+    {% endif %}
 </table>
 
 </body>
