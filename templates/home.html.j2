@@ -229,12 +229,11 @@
             </table>
             <div class="btn-group">
                 <button type="button" onclick="showIntendedUse()">Next</button>
-                <button type="submit" class="btn btn-success">Submit</button>
             </div>
         </div>
         <div id="intended-use" class="section hidden">
                 <h2>2. Intended Use</h2>
-                <table>
+                <table id="intended-use-table">
                     <!-- Intended Use fields -->
                     <tr>
                         <td>
@@ -265,15 +264,6 @@
                     </tr>
                     <tr>
                         <td>
-                            2.4 {{ form.deployers.label }}:
-                            <span data-toggle="tooltip" data-placement="right" title="List the deployers of the software">
-                                <i class="fas fa-question-circle"></i>
-                            </span>
-                        </td>
-                        <td>{{ form.deployers }}</td>
-                    </tr>
-                    <tr>
-                        <td>
                             2.5 {{ form.aiTechniques.label }}:
                             <span data-toggle="tooltip" data-placement="right" title="List the AI techniques used">
                                 <i class="fas fa-question-circle"></i>
@@ -290,13 +280,22 @@
                         </td>
                         <td>{{ form.aisubjects }}</td>
                     </tr>
+                    <tr class="original-row-4">
+                        <td>
+                            2.4 {{ form.deployers.label }}
+                            <span data-toggle="tooltip" data-placement="right" title="List the deployers of the software">
+                                <i class="fas fa-question-circle"></i>
+                            </span>
+                        </td>
+                        <td>{{ form.deployers }}</td>
+                    </tr>
                 </table>
+                <button type="button" onclick="addDeployers()">Add Deployers</button>
                 <div class="btn-group">
                     <button type="button" class="back-btn" onclick="backToGeneralInfo()">Back</button>
                     <button type="button" onclick="showKeyComponents()">Next</button>
                 </div>
             </div>
-
             <div id="key-components" class="section hidden">
                 <h2>3. Key Components</h2>
                 <table id="key-components-table">
@@ -694,44 +693,91 @@
             // Define the class of the rows to be duplicated
             var rowsToDuplicate = document.querySelectorAll('.original-row-2');
             
-            // Create a document fragment to hold the new rows
+            // Create a document fragment to hold the new section
             var fragment = document.createDocumentFragment();
             
-            var newRows = [];
+            // Create a container for the new section
+            var newSection = document.createElement('tbody');
+            newSection.classList.add('duplicated-section');
+            
+            // Add the duplicated rows to the new section
             rowsToDuplicate.forEach(function(row) {
-                // Clone each row
                 var newRow = row.cloneNode(true);
-                fragment.appendChild(newRow);
-                newRows.push(newRow);
+                newRow.classList.remove('original-row-2'); // Remove the class from the duplicated rows
+                newSection.appendChild(newRow);
             });
-    
-            // Create a remove button row and add it to the fragment
+        
+            // Create a remove button row and add it to the new section
             var removeButtonRow = document.createElement('tr');
             var removeButtonCell = document.createElement('td');
             removeButtonCell.colSpan = 2;  // Span the button across two columns
             var removeButton = document.createElement('button');
             removeButton.type = 'button';
-            removeButton.textContent = 'Remove';
+            removeButton.textContent = 'Remove Section';
             removeButton.onclick = function() {
-                // Remove the new rows associated with this remove button
-                newRows.forEach(function(row) {
-                    if (row.parentNode) {
-                        row.parentNode.removeChild(row);
-                    }
-                });
-                if (removeButtonRow.parentNode) {
-                    removeButtonRow.parentNode.removeChild(removeButtonRow);
+                // Remove the entire section
+                if (newSection.parentNode) {
+                    newSection.parentNode.removeChild(newSection);
                 }
             };
             removeButtonCell.appendChild(removeButton);
             removeButtonRow.appendChild(removeButtonCell);
             
-            // Append the remove button row to the fragment
-            fragment.appendChild(removeButtonRow);
+            // Append the remove button row to the new section
+            newSection.appendChild(removeButtonRow);
+            
+            // Append the new section to the fragment
+            fragment.appendChild(newSection);
             
             // Append the fragment to the table
             table.appendChild(fragment);
-        }   
+        }                                                                               
+        function addDeployers() {
+            // Get the table where the human involvement fields are located
+            var table = document.getElementById('intended-use-table');
+            
+            // Define the class of the rows to be duplicated
+            var rowsToDuplicate = document.querySelectorAll('.original-row-4');
+            
+            // Create a document fragment to hold the new section
+            var fragment = document.createDocumentFragment();
+            
+            // Create a container for the new section
+            var newSection = document.createElement('tbody');
+            newSection.classList.add('duplicated-section');
+            
+            // Add the duplicated rows to the new section
+            rowsToDuplicate.forEach(function(row) {
+                var newRow = row.cloneNode(true);
+                newRow.classList.remove('original-row-4'); // Remove the class from the duplicated rows
+                newSection.appendChild(newRow);
+            });
+        
+            // Create a remove button row and add it to the new section
+            var removeButtonRow = document.createElement('tr');
+            var removeButtonCell = document.createElement('td');
+            removeButtonCell.colSpan = 2;  // Span the button across two columns
+            var removeButton = document.createElement('button');
+            removeButton.type = 'button';
+            removeButton.textContent = 'Remove Section';
+            removeButton.onclick = function() {
+                // Remove the entire section
+                if (newSection.parentNode) {
+                    newSection.parentNode.removeChild(newSection);
+                }
+            };
+            removeButtonCell.appendChild(removeButton);
+            removeButtonRow.appendChild(removeButtonCell);
+            
+            // Append the remove button row to the new section
+            newSection.appendChild(removeButtonRow);
+            
+            // Append the new section to the fragment
+            fragment.appendChild(newSection);
+            
+            // Append the fragment to the table
+            table.appendChild(fragment);
+        }
         function addDataProcessing() {
             // Get the table where the human involvement fields are located
             var table = document.getElementById('data-processing-table');
@@ -739,52 +785,45 @@
             // Define the class of the rows to be duplicated
             var rowsToDuplicate = document.querySelectorAll('.original-row');
             
-            // Create a document fragment to hold the new rows
+            // Create a document fragment to hold the new section
             var fragment = document.createDocumentFragment();
             
-            var newRows = [];
+            // Create a container for the new section
+            var newSection = document.createElement('tbody');
+            newSection.classList.add('duplicated-section');
+            
+            // Add the duplicated rows to the new section
             rowsToDuplicate.forEach(function(row) {
-                // Clone each row
                 var newRow = row.cloneNode(true);
-                fragment.appendChild(newRow);
-                newRows.push(newRow);
+                newRow.classList.remove('original-row'); // Remove the class from the duplicated rows
+                newSection.appendChild(newRow);
             });
         
-            // Create a remove button row and add it to the fragment
+            // Create a remove button row and add it to the new section
             var removeButtonRow = document.createElement('tr');
             var removeButtonCell = document.createElement('td');
             removeButtonCell.colSpan = 2;  // Span the button across two columns
             var removeButton = document.createElement('button');
             removeButton.type = 'button';
-            removeButton.textContent = 'Remove';
+            removeButton.textContent = 'Remove Section';
             removeButton.onclick = function() {
-                // Remove the new rows associated with this remove button
-                newRows.forEach(function(row) {
-                    if (row.parentNode) {
-                        row.parentNode.removeChild(row);
-                    }
-                });
-                if (removeButtonRow.parentNode) {
-                    removeButtonRow.parentNode.removeChild(removeButtonRow);
+                // Remove the entire section
+                if (newSection.parentNode) {
+                    newSection.parentNode.removeChild(newSection);
                 }
             };
             removeButtonCell.appendChild(removeButton);
             removeButtonRow.appendChild(removeButtonCell);
             
-            // Append the remove button row to the fragment
-            fragment.appendChild(removeButtonRow);
+            // Append the remove button row to the new section
+            newSection.appendChild(removeButtonRow);
+            
+            // Append the new section to the fragment
+            fragment.appendChild(newSection);
             
             // Append the fragment to the table
             table.appendChild(fragment);
-        
-            // Add category fields to the duplicated rows
-            newRows.forEach(function(row) {
-                var checkbox = row.querySelector('input[type="checkbox"]');
-                if (checkbox) {
-                    addCategoryField(row);
-                }
-            });
-        }
+        }           
         function addKeyComponents() {
             // Get the table where the human involvement fields are located
             var table = document.getElementById('key-components-table');
@@ -792,44 +831,45 @@
             // Define the class of the rows to be duplicated
             var rowsToDuplicate = document.querySelectorAll('.original-row-3');
             
-            // Create a document fragment to hold the new rows
+            // Create a document fragment to hold the new section
             var fragment = document.createDocumentFragment();
             
-            var newRows = [];
+            // Create a container for the new section
+            var newSection = document.createElement('tbody');
+            newSection.classList.add('duplicated-section');
+            
+            // Add the duplicated rows to the new section
             rowsToDuplicate.forEach(function(row) {
-                // Clone each row
                 var newRow = row.cloneNode(true);
-                fragment.appendChild(newRow);
-                newRows.push(newRow);
+                newRow.classList.remove('original-row-3'); // Remove the class from the duplicated rows
+                newSection.appendChild(newRow);
             });
-    
-            // Create a remove button row and add it to the fragment
+        
+            // Create a remove button row and add it to the new section
             var removeButtonRow = document.createElement('tr');
             var removeButtonCell = document.createElement('td');
             removeButtonCell.colSpan = 2;  // Span the button across two columns
             var removeButton = document.createElement('button');
             removeButton.type = 'button';
-            removeButton.textContent = 'Remove';
+            removeButton.textContent = 'Remove Section';
             removeButton.onclick = function() {
-                // Remove the new rows associated with this remove button
-                newRows.forEach(function(row) {
-                    if (row.parentNode) {
-                        row.parentNode.removeChild(row);
-                    }
-                });
-                if (removeButtonRow.parentNode) {
-                    removeButtonRow.parentNode.removeChild(removeButtonRow);
+                // Remove the entire section
+                if (newSection.parentNode) {
+                    newSection.parentNode.removeChild(newSection);
                 }
             };
             removeButtonCell.appendChild(removeButton);
             removeButtonRow.appendChild(removeButtonCell);
             
-            // Append the remove button row to the fragment
-            fragment.appendChild(removeButtonRow);
+            // Append the remove button row to the new section
+            newSection.appendChild(removeButtonRow);
+            
+            // Append the new section to the fragment
+            fragment.appendChild(newSection);
             
             // Append the fragment to the table
             table.appendChild(fragment);
-        }   
+        }              
         function addCategoryField(booleanRow) {
             var categoryRow = document.createElement('tr');
             var categoryCellLabel = document.createElement('td');

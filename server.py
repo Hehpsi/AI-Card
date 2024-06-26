@@ -9,10 +9,10 @@ app.config['SECRET_KEY'] = 'your_secret_key'
 
 # Define the main form for AI Cards
 class AICardsForm(FlaskForm):
-    name = StringField("Name", validators=[InputRequired(), Length(min=2, max=150)])
-    version = StringField("Version", validators=[InputRequired(), Length(min=4, max=5)])
+    name = StringField("Name of System", validators=[InputRequired(), Length(min=2, max=150)])
+    version = StringField("Version of System", validators=[InputRequired(), Length(min=4, max=5)])
     aiTechniques = SelectMultipleField(
-        u'AI Techniques', 
+        u'AI Techniques in System', 
         choices=[
                 ('reasoning_technique', 'Reasoning Technique'),
                 ('learning_technique', 'Learning Technique'),
@@ -38,10 +38,10 @@ class AICardsForm(FlaskForm):
         default=[],
         validators=[InputRequired(),]
     )
-    providers = StringField("Provider(s)", validators=[InputRequired(), Length(min=4, max=150)])
-    developers = StringField("Developer(s)", validators=[InputRequired(), Length(min=4, max=150)])
+    providers = StringField("Provider(s) of System", validators=[InputRequired(), Length(min=4, max=150)])
+    developers = StringField("Developer(s) of System", validators=[InputRequired(), Length(min=4, max=150)])
     purpose = SelectMultipleField(
-        "Purpose", validators=[InputRequired(),], 
+        "Purpose of System", validators=[InputRequired(),], 
         choices = [
             ('remote_identification_of_people', 'Remote Identification Of People'),
             ('content_generation', 'Content Generation'),
@@ -162,7 +162,7 @@ class AICardsForm(FlaskForm):
         default=[]
     )
     domain = SelectMultipleField(
-        "Domain", validators=[InputRequired(),], 
+        "Domain of System", validators=[InputRequired(),], 
         choices = [
             ('critical_infrastructure', 'Critical Infrastructure'),
             ('education', 'Education'),
@@ -180,7 +180,7 @@ class AICardsForm(FlaskForm):
         default=[]
     )
     capability = SelectMultipleField(
-    "Capability", validators=[InputRequired()],
+    "Capability of System", validators=[InputRequired()],
     choices=[
         ('biometric_identification', 'Biometric Identification'),
         ('remote_biometric_identification', 'Remote Biometric Identification'),
@@ -217,9 +217,9 @@ class AICardsForm(FlaskForm):
     default=[]
 )
 
-    deployers = StringField("Deployers", validators=[InputRequired()])
+    deployers = StringField("Deployers of System", validators=[InputRequired()])
     aisubjects = SelectMultipleField(
-        "AI Subjects", validators=[InputRequired(),], 
+        "AI Subjects of System", validators=[InputRequired(),], 
         choices = [
             ('natural_person', 'Natural Person'),
             ('group', 'Group'),
@@ -360,9 +360,9 @@ class AICardsForm(FlaskForm):
     )
     
     involved_person = StringField('Involved Person', validators=[InputRequired()], render_kw={"class": "form-control"})
-    isIntended = BooleanField('Intended', default=False)
-    isActive = BooleanField('Active', default=False)
-    isInformed = BooleanField('Informed', default=False)
+    isIntended = BooleanField('Is involved person intended', default=False)
+    isActive = BooleanField('Is involved person active in the system', default=False)
+    isInformed = BooleanField('Is involved person informed about the system', default=False)
     description = TextAreaField('Description', validators=[InputRequired()], render_kw={"class": "form-control"})
     isPersonalData = BooleanField('Personal Data', default=False)
     personal_category = StringField('Category', validators=[DataRequired()], render_kw={"class": "form-control"})
@@ -371,7 +371,7 @@ class AICardsForm(FlaskForm):
     isLisencedData = BooleanField('Lisenced Data', default=False)
     lisenced_category = StringField('Category', validators=[DataRequired()], render_kw={"class": "form-control"})
     data_type = SelectField(
-        "Data Type", validators=[InputRequired()],
+        "Component Type", validators=[InputRequired()],
         choices=[
             ('model', 'Model'),
             ('system', 'System'),
@@ -420,13 +420,13 @@ class AICardsForm(FlaskForm):
     regulations = TextAreaField('Regulations', validators=[InputRequired()], render_kw={"class": "form-control"})
     standards = TextAreaField('Standards', validators=[InputRequired()], render_kw={"class": "form-control"})
     codes = TextAreaField('Codes of Conduct', validators=[InputRequired()], render_kw={"class": "form-control"})
-    key_name = StringField("Name", validators=[InputRequired(), Length(min=2, max=150)])
+    key_name = StringField("Name of Component", validators=[InputRequired(), Length(min=2, max=150)])
     data_name = StringField("Name", validators=[InputRequired(), Length(min=2, max=150)])
 # 
 @app.route('/', methods=['GET', 'POST'])
 def index():
     form = AICardsForm(request.form)
-    if request.method == "POST" and form.validate():
+    if request.method == "POST":
         # Convert the form data to a dictionary
         result = {key: request.form.getlist(key) for key in request.form.keys()}
         print(result)
